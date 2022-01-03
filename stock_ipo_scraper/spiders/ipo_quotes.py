@@ -26,11 +26,16 @@ class StockIpoQuotes(scrapy.Spider):
         raw_data = row.xpath('td//text()').extract()
         # split the list sequentially
         idx = [i for i, v in enumerate(raw_data) if len(str(v)) == 8 and '-' in v]
-        result = [raw_data[i:j] for i, j in zip(idx, idx[1:])]
+        yield
+            {
+                raw_data[i:j] for i, j in zip(idx, idx[1:])
+            }
+        
         # scrap the column names
-        head = table.xpath('//thead')
-        cols = [i for i in head.xpath('tr//text()').extract() if '\r\n\t' not in i and '\xa0' not in i]
+        #head = table.xpath('//thead')
+        
+        #cols = [i for i in head.xpath('tr//text()').extract() if '\r\n\t' not in i and '\xa0' not in i]
         # store in a dataframe
-        ipo_data = pd.DataFrame(result)
-        ipo_data.columns = cols[3:]
-        ipo_data.to_csv('ipo_data.csv', index=False)
+        #ipo_data = pd.DataFrame(result)
+        #ipo_data.columns = cols[3:]
+        #ipo_data.to_csv('ipo_data.csv', index=False)
