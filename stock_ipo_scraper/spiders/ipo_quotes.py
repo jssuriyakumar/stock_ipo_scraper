@@ -26,10 +26,7 @@ class StockIpoQuotes(scrapy.Spider):
         raw_data = row.xpath('td//text()').extract()
         # split the list sequentially
         idx = [i for i, v in enumerate(raw_data) if len(str(v)) == 8 and '-' in v]
-        yield
-            {
-                [raw_data[i:j] for i, j in zip(idx, idx[1:])]
-            }
+        yield { [raw_data[i:j] for i, j in zip(idx, idx[1:])] }
         
         # scrap the column names
         #head = table.xpath('//thead')
