@@ -28,7 +28,7 @@ class StockIpoQuotes(scrapy.Spider):
         idx = [i for i, v in enumerate(raw_data) if len(str(v)) == 8 and '-' in v]
         yield
             {
-                raw_data[i:j] for i, j in zip(idx, idx[1:])
+                [raw_data[i:j] for i, j in zip(idx, idx[1:])]
             }
         
         # scrap the column names
