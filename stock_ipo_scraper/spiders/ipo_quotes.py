@@ -32,9 +32,9 @@ class StockIpoQuotes(scrapy.Spider):
         idx = [i for i, v in enumerate(raw_data) if len(str(v)) == 8 and '-' in v]
         for i, j in zip(idx, idx[1:]):
             item['row'] : raw_data[i:j]
-        
+
             yield item
-            
+        
         # scrap the column names
         #head = table.xpath('//thead')
         
