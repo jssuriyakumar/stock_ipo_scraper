@@ -2,6 +2,8 @@
 import scrapy
 import pandas as pd
 from datetime import datetime
+from stock_ipo_scraper.items import StockIpoScraperItem
+
 
 # create a class with name of the Spider and inherit scrapy.Spider
 class StockIpoQuotes(scrapy.Spider):
@@ -13,6 +15,8 @@ class StockIpoQuotes(scrapy.Spider):
                  ]
 
     def parse(self, response):
+
+        item = StockIpoScraperItem()
         # save the scraped page as html file
         filename_html = 'ipo_quotes.html'
         with open(filename_html, 'wb') as h:
@@ -27,11 +31,10 @@ class StockIpoQuotes(scrapy.Spider):
         # split the list sequentially
         idx = [i for i, v in enumerate(raw_data) if len(str(v)) == 8 and '-' in v]
         for i, j in zip(idx, idx[1:]):
-          yield 
-        { 
-            'row' : raw_data[i:j]
-        }
+            item['row'] : raw_data[i:j]
         
+            yield item
+            
         # scrap the column names
         #head = table.xpath('//thead')
         
