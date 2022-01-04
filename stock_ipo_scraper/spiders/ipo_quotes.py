@@ -36,5 +36,3 @@ class StockIpoQuotes(scrapy.Spider):
         ipo_data = pd.DataFrame(result)
         ipo_data.columns = cols[3:]
         ipo_data.to_csv('ipo_data.csv', index=False)
-
-        yield {ipo_data.to_json()}
