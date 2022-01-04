@@ -37,4 +37,4 @@ class StockIpoQuotes(scrapy.Spider):
         ipo_data.columns = cols[3:]
         ipo_data.to_csv('ipo_data.csv', index=False)
 
-        yield {ipo_data.to_dict('list)}
+        yield {ipo_data.to_dict('list')}
