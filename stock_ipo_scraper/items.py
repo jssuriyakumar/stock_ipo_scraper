@@ -8,5 +8,5 @@ import scrapy
 
 class StockIpoScraperItem(scrapy.Item):
     # define the fields for your item here like:
-    row = scrapy.Field()
-    
+    # name = scrapy.Field()
+    pass

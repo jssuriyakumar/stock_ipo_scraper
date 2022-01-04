@@ -2,8 +2,6 @@
 import scrapy
 import pandas as pd
 from datetime import datetime
-from stock_ipo_scraper.items import StockIpoScraperItem
-
 
 # create a class with name of the Spider and inherit scrapy.Spider
 class StockIpoQuotes(scrapy.Spider):
@@ -15,8 +13,6 @@ class StockIpoQuotes(scrapy.Spider):
                  ]
 
     def parse(self, response):
-
-        item = StockIpoScraperItem()
         # save the scraped page as html file
         filename_html = 'ipo_quotes.html'
         with open(filename_html, 'wb') as h:
@@ -30,16 +26,15 @@ class StockIpoQuotes(scrapy.Spider):
         raw_data = row.xpath('td//text()').extract()
         # split the list sequentially
         idx = [i for i, v in enumerate(raw_data) if len(str(v)) == 8 and '-' in v]
-        for i, j in zip(idx, idx[1:]):
-            item['row'] : raw_data[i:j]
-
-            yield item
+        result = [raw_data[i:j] for i, j in zip(idx, idx[1:])]
         
         # scrap the column names
-        #head = table.xpath('//thead')
+        head = table.xpath('//thead')
         
-        #cols = [i for i in head.xpath('tr//text()').extract() if '\r\n\t' not in i and '\xa0' not in i]
+        cols = [i for i in head.xpath('tr//text()').extract() if '\r\n\t' not in i and '\xa0' not in i]
         # store in a dataframe
-        #ipo_data = pd.DataFrame(result)
-        #ipo_data.columns = cols[3:]
-        #ipo_data.to_csv('ipo_data.csv', index=False)
+        ipo_data = pd.DataFrame(result)
+        ipo_data.columns = cols[3:]
+        ipo_data.to_csv('ipo_data.csv', index=False)
+
+        return ipo_data
